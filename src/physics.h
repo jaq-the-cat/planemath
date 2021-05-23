@@ -13,6 +13,8 @@ typedef struct {
 } PhysicsObject;
 
 float equiv(float maxv, float minv, float angle) {
+    while (angle >= 90)
+        angle -= 90;
     float a = (maxv - minv) / 90;
     return angle * a + minv;
 }

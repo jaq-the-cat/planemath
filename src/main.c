@@ -15,7 +15,7 @@ int main() {
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
         0.2, // drag coefficient at 0°
-        0.95, // drag coefficient at 90°
+        0.9, // drag coefficient at 90°
         3, // area at 0°
         24, // area at 90°
     };
