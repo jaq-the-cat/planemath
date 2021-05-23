@@ -1,5 +1,7 @@
 -SOURCE
 src/main.c
+src/lift.c
+src/physics.c
 -LIBS
 ncurses
 m
