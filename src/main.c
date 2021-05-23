@@ -10,7 +10,8 @@
 int main() {
     int position;
     PhysicsObject mig15 = {
-        0, // initial velocity (m/s)
+        0, // initial horizontal velocity (m/s)
+        0, // initial vertical velocity (m/s)
         0, // initial angle (degrees)
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
@@ -38,10 +39,11 @@ int main() {
         mvprintw(1, 0, "Thrust       %lf N", mig15.thrust);
         mvprintw(2, 0, "Drag         %lf N", drag(&mig15));
         mvprintw(3, 0, "Lift         %lf N", lift(&mig15) * mig15.lift_const);
-        mvprintw(4, 0, "H Velocity   %lf m/s", mig15.velocity);
+        mvprintw(4, 0, "H Velocity   %lf m/s", mig15.horizontal);
         mvprintw(5, 0, "V Velocity   %lf m/s", to_ms(mig15.mass, (lift(&mig15) * mig15.lift_const) - gravity(&mig15)));
-        mig15.velocity += to_ms(mig15.mass, mig15.thrust - drag(&mig15));
-        position += mig15.velocity;
+
+        mig15.horizontal += to_ms(mig15.mass, mig15.thrust - drag(&mig15));
+        mig15.vertical = lift(&mig15) * mig15.lift_const - gravity(&mig15);
 
         refresh();
     }

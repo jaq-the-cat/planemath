@@ -3,7 +3,8 @@
 #include <math.h>
 
 typedef struct {
-    double velocity;
+    double horizontal;
+    double vertical;
     double angle;
     double mass;
     double thrust;
