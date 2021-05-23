@@ -14,7 +14,7 @@ int main() {
         0, // initial angle (degrees)
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
-        1, // lift constant
+        0.4, // lift constant
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
         3, // frontal area at 0°
