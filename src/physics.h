@@ -25,10 +25,10 @@ float get_lift_coeff(PhysicsObject *obj) {
     while (angle >= 180)
         angle -= 180;
     if (angle >= 0 && angle < 15) lift = equiv(0, 1.4, angle);
-    if (angle >= 15 && angle < 50) lift = equiv(1.4, 1, angle);
-    if (angle >= 50 && angle < 100) lift = equiv(1, 0, angle);
-    if (angle >= 100 && angle < 150) lift = equiv(0, -1, angle);
-    if (angle >= 150 && angle < 180) lift = equiv(-1, 0, angle);
+    else if (angle >= 15 && angle < 50) lift = equiv(1.4, 1, angle);
+    else if (angle >= 50 && angle < 100) lift = equiv(1, 0, angle);
+    else if (angle >= 100 && angle < 150) lift = equiv(0, -1, angle);
+    else if (angle >= 150 && angle < 180) lift = equiv(-1, 0, angle);
     return lift;
 }
 

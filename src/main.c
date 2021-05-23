@@ -14,12 +14,12 @@ int main() {
         0, // initial angle (degrees)
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
-        0.2, // lift constant
+        0.01, // lift constant
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
         3, // frontal area at 0°
         24, // frontal area at 90°
-        20, // wing area
+        15, // wing area
     };
 
     initscr();
