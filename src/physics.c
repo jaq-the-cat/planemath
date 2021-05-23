@@ -8,8 +8,6 @@ double min(double a, double b) {
     return a < b ? a : b;
 }
 
-double get_lift_coeff(PhysicsObject *obj);
-
 double equiv(double minv, double maxv, double angle, double maxangle) {
     return (maxv-minv) * angle / maxangle + minv;
 }
@@ -30,7 +28,7 @@ double get_frontal_area(PhysicsObject *obj) {
 
 double lift(PhysicsObject *obj)  {
     double cl = get_lift_coeff(obj);
-    double p = 7.9;  // density of steel
+    double p = 1.2;  // density of air
     double v = pow(obj->velocity, 2);
     double A = obj->wing_area;
     return cl * (p * v / 2) * A;

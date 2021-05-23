@@ -14,7 +14,7 @@ int main() {
         0, // initial angle (degrees)
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
-        0.01, // lift constant
+        1, // lift constant
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
         3, // frontal area at 0°
@@ -40,6 +40,7 @@ int main() {
         mvprintw(3, 0, "Lift         %lf", lift(&mig15) * mig15.lift_const);
         mvprintw(4, 0, "H Velocity   %lf", mig15.velocity);
         mvprintw(5, 0, "V Velocity   %lf", to_ms(mig15.mass, lift(&mig15) - gravity(&mig15)));
+        mvprintw(6, 0, "Lift Coeff   %lf", get_lift_coeff(&mig15));
         mig15.velocity += to_ms(mig15.mass, mig15.thrust - drag(&mig15));
         position += mig15.velocity;
 
