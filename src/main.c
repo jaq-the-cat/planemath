@@ -40,7 +40,6 @@ int main() {
         mvprintw(3, 0, "Lift         %lf", lift(&mig15) * mig15.lift_const);
         mvprintw(4, 0, "H Velocity   %lf", mig15.velocity);
         mvprintw(5, 0, "V Velocity   %lf", to_ms(mig15.mass, lift(&mig15) - gravity(&mig15)));
-        mvprintw(6, 0, "Lift Coeff   %lf", get_lift_coeff(&mig15));
         mig15.velocity += to_ms(mig15.mass, mig15.thrust - drag(&mig15));
         position += mig15.velocity;
 
