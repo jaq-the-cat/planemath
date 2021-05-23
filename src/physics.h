@@ -21,6 +21,8 @@ double get_drag_coeff(PhysicsObject *obj);
 
 double get_frontal_area(PhysicsObject *obj);
 
+double get_wing_area(PhysicsObject *obj);
+
 double lift(PhysicsObject *obj);
 
 double drag(PhysicsObject *obj);

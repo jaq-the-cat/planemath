@@ -14,12 +14,12 @@ int main() {
         0, // initial angle (degrees)
         4500, // mass (kg)
         (26.5)*1000, // thrust (N)
-        0.4, // lift constant
+        0.9, // lift constant
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
         3, // frontal area at 0°
         24, // frontal area at 90°
-        15, // wing area
+        25, // wing area
     };
 
     initscr();
@@ -34,12 +34,13 @@ int main() {
             mig15.angle += 0.5;
         else if (input == KEY_DOWN)
             mig15.angle -= 0.5;
-        mvprintw(0, 0, "Angle        %lf", mig15.angle);
-        mvprintw(1, 0, "Thrust       %lf", mig15.thrust);
-        mvprintw(2, 0, "Drag         %lf", drag(&mig15));
-        mvprintw(3, 0, "Lift         %lf", lift(&mig15) * mig15.lift_const);
-        mvprintw(4, 0, "H Velocity   %lf", mig15.velocity);
-        mvprintw(5, 0, "V Velocity   %lf", to_ms(mig15.mass, lift(&mig15) - gravity(&mig15)));
+        mvprintw(0, 0, "Angle        %lf Degrees", mig15.angle);
+        mvprintw(1, 0, "Thrust       %lf N", mig15.thrust);
+        mvprintw(2, 0, "Drag         %lf N", drag(&mig15));
+        mvprintw(3, 0, "Lift         %lf N", lift(&mig15) * mig15.lift_const);
+        mvprintw(4, 0, "H Velocity   %lf m/s", mig15.velocity);
+        mvprintw(5, 0, "V Velocity   %lf m/s", to_ms(mig15.mass, lift(&mig15) - gravity(&mig15)));
+        mvprintw(6, 0, "Wing Area    %lf m²", get_wing_area(&mig15));
         mig15.velocity += to_ms(mig15.mass, mig15.thrust - drag(&mig15));
         position += mig15.velocity;
 
