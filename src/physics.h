@@ -14,9 +14,16 @@ typedef struct {
     double wing_area;
 } PhysicsObject;
 
-double equiv(double minv, double maxv, double angle) {
-    double a = (maxv - minv) / 90;
-    return angle * a + minv;
+double max(double a, double b) {
+    return a > b ? a : b;
+}
+
+double min(double a, double b) {
+    return a < b ? a : b;
+}
+
+double equiv(double minv, double maxv, double angle, double maxangle) {
+    return ((maxv-minv) * angle / maxangle) + minv;
 }
 
 double get_lift_coeff(PhysicsObject *obj) {
@@ -24,11 +31,11 @@ double get_lift_coeff(PhysicsObject *obj) {
     double lift = 0;
     while (angle >= 180)
         angle -= 180;
-    if (angle >= 0 && angle < 15) lift = equiv(0, 1.4, angle);
-    else if (angle >= 15 && angle < 50) lift = equiv(1.4, 1, angle);
-    else if (angle >= 50 && angle < 100) lift = equiv(1, 0, angle);
-    else if (angle >= 100 && angle < 150) lift = equiv(0, -1, angle);
-    else if (angle >= 150 && angle < 180) lift = equiv(-1, 0, angle);
+    if (angle >= 0 && angle < 15) lift = equiv(0, 1.4, angle, 180);
+    else if (angle >= 15 && angle < 50) lift = equiv(1.4, 1, angle, 180);
+    else if (angle >= 50 && angle < 100) lift = equiv(1, 0, angle, 180);
+    else if (angle >= 100 && angle < 150) lift = equiv(0, -1, angle, 180);
+    else if (angle >= 150 && angle < 180) lift = equiv(-1, 0, angle, 180);
     return lift;
 }
 
@@ -36,14 +43,14 @@ double get_drag_coeff(PhysicsObject *obj) {
     double angle = obj->angle;
     while (angle >= 90)
         angle -= 90;
-    return equiv(obj->cd_min, obj->cd_max, angle);
+    return equiv(obj->cd_min, obj->cd_max, angle, 90);
 }
 
 double get_frontal_area(PhysicsObject *obj) {
     double angle = obj->angle;
     while (angle >= 90)
         angle -= 90;
-    return equiv(obj->area_min, obj->area_max, angle);
+    return equiv(obj->area_min, obj->area_max, angle, 90);
 }
 
 double lift(PhysicsObject *obj)  {
