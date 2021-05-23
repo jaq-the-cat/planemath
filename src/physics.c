@@ -13,14 +13,14 @@ double equiv(double minv, double maxv, double angle, double maxangle) {
 }
 
 double get_drag_coeff(PhysicsObject *obj) {
-    double angle = obj->angle;
+    double angle = get_aot(obj);
     while (angle >= 90)
         angle -= 90;
     return equiv(obj->cd_min, obj->cd_max, angle, 90);
 }
 
 double get_frontal_area(PhysicsObject *obj) {
-    double angle = obj->angle;
+    double angle = get_aot(obj);
     while (angle >= 90)
         angle -= 90;
     return equiv(obj->area_min, obj->area_max, angle, 90);
@@ -40,22 +40,26 @@ double get_wing_area(PhysicsObject *obj) {
 double lift(PhysicsObject *obj)  {
     double cl = get_lift_coeff(obj);
     double p = 1.2;  // density of air
-    double v = pow(obj->horizontal, 2);
+    double v = pow(obj->vertical, 2) + pow(obj->horizontal, 2);
     double A = get_wing_area(obj);
     return cl * (p * v / 2) * A;
 }
 
 double drag(PhysicsObject *obj) {
     double p = 1.2; // density of air
-    double u = obj->horizontal;
+    double u = pow(obj->vertical, 2) + pow(obj->horizontal, 2);
     double cd = get_drag_coeff(obj);
     double A = get_frontal_area(obj);
 
-    return 0.5 * p * pow(u, 2) * cd * A;
+    return 0.5 * p * u * cd * A;
 }
 
 double get_prograde(PhysicsObject *obj) {
     return atan(obj->vertical / obj->horizontal) * (180/3.141);
+}
+
+double get_aot(PhysicsObject *obj) {
+    return obj->angle - get_prograde(obj);
 }
 
 double gravity(PhysicsObject *obj) {

@@ -28,6 +28,10 @@ double lift(PhysicsObject *obj);
 
 double drag(PhysicsObject *obj);
 
+double get_prograde(PhysicsObject *obj);
+
+double get_aot(PhysicsObject *obj);
+
 double gravity(PhysicsObject *obj);
 
 double get_horizontal_force(PhysicsObject *obj);

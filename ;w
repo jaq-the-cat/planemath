@@ -37,7 +37,7 @@ int main() {
             mig15.angle -= 0.5;
 
         mig15.horizontal += to_ms(mig15.mass, get_horizontal_force(&mig15));
-        mig15.vertical += to_ms(mig15.mass, get_vertical_force(&mig15) + lift(&mig15)*mig15.lift_const - gravity(&mig15));
+        mig15.vertical += to_ms(mig15.mass, get_vertical_force(&mig15));
 
         mvprintw(0, 0, "Angle            %lf Degrees", mig15.angle);
         mvprintw(1, 0, "Angle of Attack  %lf Degrees", get_aot(&mig15));
