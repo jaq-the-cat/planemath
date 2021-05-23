@@ -30,6 +30,10 @@ double drag(PhysicsObject *obj);
 
 double gravity(PhysicsObject *obj);
 
+double get_horizontal_force(PhysicsObject *obj);
+
+double get_vertical_force(PhysicsObject *obj);
+
 double to_ms(double mass, double force);
 
 double acc(PhysicsObject *obj);
