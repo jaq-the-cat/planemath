@@ -25,7 +25,8 @@ double get_lift_coeff(PhysicsObject *obj) {
     double lift = 0;
     while (angle >= 180)
         angle -= 180;
-    if (angle >= 0 && angle < 15) lift = to15(angle);
+    if (angle == 0) return 0.02;
+    if (angle > 0 && angle < 15) lift = to15(angle);
     else if (angle >= 15 && angle < 50) lift = to50(angle);
     else if (angle >= 50 && angle < 100) lift = to100(angle);
     else if (angle >= 100 && angle < 150) lift = to150(angle);
@@ -33,7 +34,7 @@ double get_lift_coeff(PhysicsObject *obj) {
     return lift;
 }
 
-// 0, 15     0, 1.4
+// 0, 15     0.4, 1.4
 // 15, 50    1.4, 1
 // 50, 100   1, 0
 // 100, 150  0, -1
