@@ -10,10 +10,14 @@
 int main() {
     int position;
     PhysicsObject mig15 = {
-        0,
-        4500, // 5000kg
-        (26.5)*1000, // 26.5kN
-        3 // 3m
+        0, // initial velocity (m/s)
+        0, // initial angle (degrees)
+        4500, // mass (kg)
+        (26.5)*1000, // thrust (N)
+        0.2, // drag coefficient at 0°
+        0.95, // drag coefficient at 90°
+        3, // area at 0°
+        24, // area at 90°
     };
 
     initscr();
