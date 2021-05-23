@@ -2,26 +2,26 @@
 #include <math.h>
 
 typedef struct {
-    float velocity;
-    float angle;
-    float mass;
-    float thrust;
-    float lift_const;
-    float cd_min;
-    float cd_max;
-    float area_min;
-    float area_max;
-    float wing_area;
+    double velocity;
+    double angle;
+    double mass;
+    double thrust;
+    double lift_const;
+    double cd_min;
+    double cd_max;
+    double area_min;
+    double area_max;
+    double wing_area;
 } PhysicsObject;
 
-float equiv(float minv, float maxv, float angle) {
-    float a = (maxv - minv) / 90;
+double equiv(double minv, double maxv, double angle) {
+    double a = (maxv - minv) / 90;
     return angle * a + minv;
 }
 
-float get_lift_coeff(PhysicsObject *obj) {
-    float angle = obj->angle;
-    float lift = 0;
+double get_lift_coeff(PhysicsObject *obj) {
+    double angle = obj->angle;
+    double lift = 0;
     while (angle >= 180)
         angle -= 180;
     if (angle >= 0 && angle < 15) lift = equiv(0, 1.4, angle);
@@ -32,46 +32,46 @@ float get_lift_coeff(PhysicsObject *obj) {
     return lift;
 }
 
-float get_drag_coeff(PhysicsObject *obj) {
-    float angle = obj->angle;
+double get_drag_coeff(PhysicsObject *obj) {
+    double angle = obj->angle;
     while (angle >= 90)
         angle -= 90;
     return equiv(obj->cd_min, obj->cd_max, angle);
 }
 
-float get_frontal_area(PhysicsObject *obj) {
-    float angle = obj->angle;
+double get_frontal_area(PhysicsObject *obj) {
+    double angle = obj->angle;
     while (angle >= 90)
         angle -= 90;
     return equiv(obj->area_min, obj->area_max, angle);
 }
 
-float lift(PhysicsObject *obj)  {
-    float cl = get_lift_coeff(obj);
-    float p = 8;  // density of steel
-    float v = pow(obj->velocity, 2);
-    float A = obj->wing_area;
+double lift(PhysicsObject *obj)  {
+    double cl = get_lift_coeff(obj);
+    double p = 7.9;  // density of steel
+    double v = pow(obj->velocity, 2);
+    double A = obj->wing_area;
     return cl * (p * v / 2) * A;
 }
 
-float drag(PhysicsObject *obj) {
-    float p = 1.2; // density of air
-    float u = obj->velocity;
-    float cd = get_drag_coeff(obj);
-    float A = get_frontal_area(obj);
+double drag(PhysicsObject *obj) {
+    double p = 1.2; // density of air
+    double u = obj->velocity;
+    double cd = get_drag_coeff(obj);
+    double A = get_frontal_area(obj);
 
     return 0.5 * p * pow(u, 2) * cd * A;
 }
 
-float gravity(PhysicsObject *obj) {
+double gravity(PhysicsObject *obj) {
     return obj->mass * 9.8;
 }
 
-float to_ms(float mass, float force) {
+double to_ms(double mass, double force) {
     return force / mass;
 }
 
-float acc(PhysicsObject *obj) {
+double acc(PhysicsObject *obj) {
     // v = F/m
     return (obj->thrust - drag(obj)) / obj->mass;
 }
