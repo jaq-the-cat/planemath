@@ -54,6 +54,10 @@ double drag(PhysicsObject *obj) {
     return 0.5 * p * pow(u, 2) * cd * A;
 }
 
+double get_prograde(PhysicsObject *obj) {
+    return atan(obj->vertical / obj->horizontal) * (180/3.141);
+}
+
 double gravity(PhysicsObject *obj) {
     return obj->mass * 9.8;
 }
