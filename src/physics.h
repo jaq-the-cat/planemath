@@ -11,6 +11,7 @@ typedef struct {
     float cd_max;
     float area_min;
     float area_max;
+    float wing_area;
 } PhysicsObject;
 
 float equiv(float minv, float maxv, float angle) {
@@ -45,6 +46,14 @@ float get_frontal_area(PhysicsObject *obj) {
     return equiv(obj->area_min, obj->area_max, angle);
 }
 
+float lift(PhysicsObject *obj)  {
+    float cl = get_lift_coeff(obj);
+    float p = 8;  // density of steel
+    float v = pow(obj->velocity, 2);
+    float A = obj->wing_area;
+    return cl * (p * v / 2) * A;
+}
+
 float drag(PhysicsObject *obj) {
     float p = 1.2; // density of air
     float u = obj->velocity;
@@ -52,6 +61,14 @@ float drag(PhysicsObject *obj) {
     float A = get_frontal_area(obj);
 
     return 0.5 * p * pow(u, 2) * cd * A;
+}
+
+float gravity(PhysicsObject *obj) {
+    return obj->mass * 9.8;
+}
+
+float to_ms(float mass, float force) {
+    return force / mass;
 }
 
 float acc(PhysicsObject *obj) {
