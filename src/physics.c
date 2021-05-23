@@ -31,7 +31,7 @@ double get_wing_area(PhysicsObject *obj) {
     while (angle >= 180)
         angle -= 180;
     if (angle < 90) {
-        return equiv(0, obj->wing_area, angle, 90);
+        return equiv(obj->wing_area, 0, angle, 90);
     } else {
         return equiv(0, -obj->wing_area, angle-90, 90);
     }
