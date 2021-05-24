@@ -16,21 +16,31 @@ typedef struct {
     double wing_area;
 } PhysicsObject;
 
-double get_lift_coeff(PhysicsObject *obj);
+// area
+
+double get_frontal_area(PhysicsObject *obj, double angle);
+
+double get_wing_area(PhysicsObject *obj, double angle);
+
+// drag
 
 double get_drag_coeff(PhysicsObject *obj);
 
-double get_frontal_area(PhysicsObject *obj);
+double drag(PhysicsObject *obj, double u, double A);
 
-double get_wing_area(PhysicsObject *obj);
+// lift
 
-double lift(PhysicsObject *obj);
+double get_lift_coeff(PhysicsObject *obj);
 
-double drag(PhysicsObject *obj);
+double lift(PhysicsObject *obj, double v, double A);
+
+// angles
 
 double get_prograde(PhysicsObject *obj);
 
 double get_aot(PhysicsObject *obj);
+
+// util
 
 double gravity(PhysicsObject *obj);
 
@@ -39,7 +49,5 @@ double get_horizontal_thrust(PhysicsObject *obj);
 double get_vertical_thrust(PhysicsObject *obj);
 
 double to_ms(double mass, double force);
-
-double acc(PhysicsObject *obj);
 
 #endif

@@ -35,12 +35,12 @@ double get_lift_coeff(PhysicsObject *obj) {
     return lift;
 }
 
-double lift(PhysicsObject *obj)  {
+double lift(PhysicsObject *obj, double v, double A)  {
     double cl = get_lift_coeff(obj);
     double p = 1.2;  // density of air
-    double v = pow(obj->vertical, 2) + pow(obj->horizontal, 2);
-    double A = get_wing_area(obj);
-    return cl * (p * v / 2) * A;
+    /*double v = pow(obj->vertical, 2) + pow(obj->horizontal, 2);*/
+    /*double A = get_wing_area(obj);*/
+    return cl * (p * pow(v, 2) / 2) * A;
 }
 
 // 0, 15     0.4, 1.4

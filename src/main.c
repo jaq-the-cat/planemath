@@ -7,6 +7,16 @@
 
 #include "physics.h"
 
+typedef struct {
+    char *str;
+    double value;
+} ConsoleData;
+
+void printdata(ConsoleData data[], int length) {
+    for (int i=0; i<length; i++)
+        mvprintw(i, 0, data[i].str, data[i].value);
+}
+
 int main() {
     int position;
     PhysicsObject mig15 = {
@@ -36,17 +46,29 @@ int main() {
         else if (input == KEY_DOWN)
             mig15.angle -= 0.5;
 
-        mig15.horizontal += to_ms(mig15.mass, get_horizontal_thrust(&mig15));
-        mig15.vertical += to_ms(mig15.mass, get_vertical_thrust(&mig15) + lift(&mig15)*mig15.lift_const - gravity(&mig15));
+        mig15.horizontal += to_ms(mig15.mass,
+            get_horizontal_thrust(&mig15)
+            + lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 90.)));
 
-        mvprintw(0, 0, "Angle            %lf Degrees", mig15.angle);
-        mvprintw(1, 0, "Angle of Attack  %lf Degrees", get_aot(&mig15));
-        mvprintw(2, 0, "H Thrust         %lf N", get_horizontal_thrust(&mig15));
-        mvprintw(3, 0, "V Thrust         %lf N", get_vertical_thrust(&mig15));
-        mvprintw(4, 0, "H Velocity       %lf m/s", mig15.horizontal);
-        mvprintw(5, 0, "V Velocity       %lf m/s", mig15.vertical);
-        mvprintw(6, 0, "Drag             %lf N", drag(&mig15));
-        mvprintw(7, 0, "Lift             %lf N", lift(&mig15) * mig15.lift_const);
+        mig15.vertical += to_ms(mig15.mass,
+            get_vertical_thrust(&mig15)
+            + lift(&mig15, mig15.vertical, get_wing_area(&mig15, 0.))
+            * mig15.lift_const
+            - gravity(&mig15));
+
+        ConsoleData data[] = {
+            "Angle            %lf Degrees", mig15.angle,
+            "Angle of Attack  %lf Degrees", get_aot(&mig15),
+            "H Thrust         %lf N", get_horizontal_thrust(&mig15),
+            "V Thrust         %lf N", get_vertical_thrust(&mig15),
+            "H Velocity       %lf m/s", mig15.horizontal,
+            "V Velocity       %lf m/s", mig15.vertical,
+            "H Drag           %lf N", drag(&mig15, mig15.horizontal, get_frontal_area(&mig15, 0.)),
+            "V Drag           %lf N", drag(&mig15, mig15.vertical, get_frontal_area(&mig15, 90.)),
+            "H Lift           %lf N", lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 90.)),
+            "V Lift           %lf N", lift(&mig15, mig15.vertical, get_wing_area(&mig15, 0.))
+        };
+        printdata(data, 10);
 
         refresh();
     }
