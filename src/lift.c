@@ -1,4 +1,5 @@
 #include "physics.h"
+#include "util.h"
 
 double to15(double angle) {
     return (7./75.) * angle;
@@ -32,6 +33,14 @@ double get_lift_coeff(PhysicsObject *obj) {
     else if (angle >= 100 && angle < 150) lift = to150(angle);
     else if (angle >= 150 && angle < 180) lift = to180(angle);
     return lift;
+}
+
+double lift(PhysicsObject *obj)  {
+    double cl = get_lift_coeff(obj);
+    double p = 1.2;  // density of air
+    double v = pow(obj->vertical, 2) + pow(obj->horizontal, 2);
+    double A = get_wing_area(obj);
+    return cl * (p * v / 2) * A;
 }
 
 // 0, 15     0.4, 1.4

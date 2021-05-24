@@ -1,7 +1,11 @@
 -SOURCE
 src/main.c
 src/lift.c
-src/physics.c
+src/drag.c
+src/area.c
+src/angles.c
+src/util.c
+src/thrust.c
 -LIBS
 ncurses
 m
