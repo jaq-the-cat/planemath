@@ -20,17 +20,17 @@ void printdata(ConsoleData data[], int length) {
 int main() {
     int position;
     PhysicsObject mig15 = {
-        0, // initial horizontal velocity (m/s)
-        0, // initial vertical velocity (m/s)
-        0, // initial angle (degrees)
-        4500, // mass (kg)
-        (26.5)*1000, // thrust (N)
+        0., // initial horizontal velocity (m/s)
+        0., // initial vertical velocity (m/s)
+        0., // initial angle (degrees)
+        4500., // mass (kg)
+        (26.5)*1000., // thrust (N)
         0.7, // lift constant
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
-        3, // frontal area at 0°
-        25, // frontal area at 90°
-        23, // wing area
+        3., // frontal area at 0°
+        25., // frontal area at 90°
+        23., // wing area
     };
 
     initscr();
@@ -48,27 +48,43 @@ int main() {
 
         mig15.horizontal += to_ms(mig15.mass,
             get_horizontal_thrust(&mig15)
-            + lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 90.)));
+            + lift(&mig15, mig15.vertical, get_wing_area(&mig15, 90.))
+            - drag(&mig15, mig15.horizontal, get_frontal_area(&mig15, 0.), mig15.angle));
 
         mig15.vertical += to_ms(mig15.mass,
             get_vertical_thrust(&mig15)
-            + lift(&mig15, mig15.vertical, get_wing_area(&mig15, 0.))
-            * mig15.lift_const
+            + lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 0.))
+            + drag(&mig15, mig15.vertical, get_frontal_area(&mig15, 90.), mig15.angle)
             - gravity(&mig15));
 
         ConsoleData data[] = {
-            "Angle            %lf Degrees", mig15.angle,
-            "Angle of Attack  %lf Degrees", get_aot(&mig15),
-            "H Thrust         %lf N", get_horizontal_thrust(&mig15),
-            "V Thrust         %lf N", get_vertical_thrust(&mig15),
-            "H Velocity       %lf m/s", mig15.horizontal,
-            "V Velocity       %lf m/s", mig15.vertical,
-            "H Drag           %lf N", drag(&mig15, mig15.horizontal, get_frontal_area(&mig15, 0.)),
-            "V Drag           %lf N", drag(&mig15, mig15.vertical, get_frontal_area(&mig15, 90.)),
-            "H Lift           %lf N", lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 90.)),
-            "V Lift           %lf N", lift(&mig15, mig15.vertical, get_wing_area(&mig15, 0.))
+            "Density of Air  %.2lf", 1.2,
+            "V Velocity²     %.2lf", pow(mig15.horizontal, 2.),
+            "V Drag Coeff    %.2lf", get_lift_coeff(&mig15),
+            "WA at 0°       %.2lfm²", get_wing_area(&mig15, 0.),
+            "", 0,
+            "Angle            %.2lf°", mig15.angle,
+            "Angle of Attack  %.2lf°", get_aot(&mig15),
+            "", 0,
+            "H Thrust         %.2lf kN", get_horizontal_thrust(&mig15) / 1000,
+            "V Thrust         %.2lf kN", get_vertical_thrust(&mig15) / 1000,
+            "H Velocity       %.2lf m/s", mig15.horizontal,
+            "V Velocity       %.2lf m/s", mig15.vertical,
+            "Velocity         %.2lf m/s", sqrt(pow(mig15.horizontal, 2) + pow(mig15.vertical, 2)),
+            "", 0,
+            "H Drag           %.2lf kN", drag(&mig15, mig15.horizontal, get_frontal_area(&mig15, 0.), mig15.angle) / 1000,
+            "FA at 0°        %.2lfm²", get_frontal_area(&mig15, 0.),
+            "V Drag           %.2lf kN", drag(&mig15, mig15.vertical, get_frontal_area(&mig15, 90.), mig15.angle) / 1000,
+            "FA at 90°       %.2lfm²", get_frontal_area(&mig15, 90.),
+            "", 0,
+            "H Lift           %.2lf kN", lift(&mig15, mig15.horizontal, get_wing_area(&mig15, 90.)) / 1000,
+            "WA at 90°       %.2lfm²", get_wing_area(&mig15, 90.),
+            "V Lift           %.2lf kN", lift(&mig15, mig15.vertical, get_wing_area(&mig15, 0.)) / 1000,
+            "WA at 0°        %.2lfm²", get_wing_area(&mig15, 0.),
+            "", 0,
+            "Gravity°        %.2lf kN", gravity(&mig15),
         };
-        printdata(data, 10);
+        printdata(data, 25);
 
         refresh();
     }

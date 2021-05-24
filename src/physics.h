@@ -24,9 +24,9 @@ double get_wing_area(PhysicsObject *obj, double angle);
 
 // drag
 
-double get_drag_coeff(PhysicsObject *obj);
+double get_drag_coeff(PhysicsObject *obj, double angle);
 
-double drag(PhysicsObject *obj, double u, double A);
+double drag(PhysicsObject *obj, double u, double A, double angle);
 
 // lift
 
