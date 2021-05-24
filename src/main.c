@@ -19,8 +19,8 @@ int main() {
         0.2, // drag coefficient at 0°
         0.9, // drag coefficient at 90°
         3, // frontal area at 0°
-        24, // frontal area at 90°
-        25, // wing area
+        25, // frontal area at 90°
+        23, // wing area
     };
 
     initscr();
@@ -36,13 +36,13 @@ int main() {
         else if (input == KEY_DOWN)
             mig15.angle -= 0.5;
 
-        mig15.horizontal += to_ms(mig15.mass, get_horizontal_force(&mig15));
-        mig15.vertical += to_ms(mig15.mass, get_vertical_force(&mig15) + lift(&mig15)*mig15.lift_const - gravity(&mig15));
+        mig15.horizontal += to_ms(mig15.mass, get_horizontal_thrust(&mig15));
+        mig15.vertical += to_ms(mig15.mass, get_vertical_thrust(&mig15) + lift(&mig15)*mig15.lift_const - gravity(&mig15));
 
         mvprintw(0, 0, "Angle            %lf Degrees", mig15.angle);
         mvprintw(1, 0, "Angle of Attack  %lf Degrees", get_aot(&mig15));
-        mvprintw(2, 0, "H Thrust         %lf N", get_horizontal_force(&mig15));
-        mvprintw(3, 0, "V Thrust         %lf N", get_vertical_force(&mig15));
+        mvprintw(2, 0, "H Thrust         %lf N", get_horizontal_thrust(&mig15));
+        mvprintw(3, 0, "V Thrust         %lf N", get_vertical_thrust(&mig15));
         mvprintw(4, 0, "H Velocity       %lf m/s", mig15.horizontal);
         mvprintw(5, 0, "V Velocity       %lf m/s", mig15.vertical);
         mvprintw(6, 0, "Drag             %lf N", drag(&mig15));
